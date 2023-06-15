@@ -4,25 +4,25 @@ const validator = (req, res, next) => {
 
     const schema = joi.object({
         nombre: joi.string().max(12).min(3).trim().pattern(new RegExp('[a-zA-Z]')).required().messages({
-            'string.min': 'The name must have more than three letters',
-            'string.max': 'The name must have less than twelve letters',
-            'string.empty':'The name is required',
-            'string.pattern.base':'the name can only have letters'
+            'string.min': 'El nombre debe tener más de tres letras.',
+            'string.max': 'El nombre debe tener menos de doce letras.',
+            'string.empty':'El nombre es requerido',
+            'string.pattern.base':'El nombre solo puede tener letras.'
         }),
        apellido: joi.string().max(16).min(3).trim().pattern(new RegExp('[a-zA-Z]')).required().messages({
-           'string.empty' : 'The last name is required',
-            'string.min': 'The last name must have more than three letters',
-            'string.max': 'The last name must have less than sixteen letters',
-            'string.pattern.base':'the last name can only contain letters'
+           'string.empty' : 'El apellido es obligatorio',
+            'string.min': 'El apellido debe tener más de tres letras.',
+            'string.max': 'El apellido debe tener menos de dieciséis letras.',
+            'string.pattern.base':'El apellido solo puede contener letras'
         }),
         contraseña: joi.string().min(8).trim().pattern(new RegExp('^[a-zA-Z0-9]')).required().messages({
-            'string.empty' : 'The password is required',
-            'string.min': 'The password must have more than three characters',
-            'string.pattern.base':'The password can only have letters or numbers' 
+            'string.empty' : 'La contraseña es requerida',
+            'string.min': 'La contraseña debe tener más de tres caracteres',
+            'string.pattern.base':'La contraseña solo puede tener letras o números.' 
         }),
         email: joi.string().email().trim().required().messages({
-            'string.empty': 'The Email is required',
-            'string.email':'The mail requires a valid format',
+            'string.empty': 'El correo electrónico es requerido',
+            'string.email':'El correo requiere un formato válido',
         }),
         fotoPerfil: joi.required(),
         rol: joi.string()

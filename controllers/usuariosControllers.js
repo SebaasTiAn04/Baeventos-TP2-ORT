@@ -1,8 +1,30 @@
 
-const Usuario =  require('../models/usuario')
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const usuarioService = require('../services/servicesUsuario');
 
+
+const usuarioControllers = {
+    obtenerTodosLosUsuarios:async (req, res) => {
+        try{
+           const usuarios = await usuarioService.obtenerTodosLosUsuarios();
+            res.json({success: true, response: usuarios});
+        }catch(error){
+            res.json({success: false, response: null});
+        }
+    },
+    nuevoUsuario: async (req, res) => {
+        let {nombre,apellido,email, contraseña,fotoPerfil,rol } = req.body 
+        try{
+            const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol);
+            res.json({ success: true, response: resultado });
+        }catch(error){ 
+            res.json({success:false, response: null, error:true});
+        }        
+    },
+}
+
+module.exports = usuarioControllers
+
+/* 
 const usuarioControllers = {
     obtenerTodosLosUsuarios:async (req, res) => {
         let respuesta = []
@@ -49,4 +71,4 @@ const usuarioControllers = {
 
 
 
-module.exports = usuarioControllers
+module.exports = usuarioControllers */

@@ -5,5 +5,5 @@ mongoose.connect(process.env.MONGO_URI ,
     useUnifiedTopology: true,
     useNewUrlParser:true,
 })
-.then( () => console.log('data base connected'))
+.then( () => console.log('Base de datos conectada'))
 .catch( err => console.log(err) )
