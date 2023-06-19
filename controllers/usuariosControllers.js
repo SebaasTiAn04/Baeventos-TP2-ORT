@@ -12,9 +12,9 @@ const usuarioControllers = {
         }
     },
     nuevoUsuario: async (req, res) => {
-        let {nombre,apellido,email, contraseña,fotoPerfil,rol } = req.body 
+        let {nombre,apellido,email, contraseña,fotoPerfil,rol, categoriaInteres, eventosAgendadosPorId } = req.body 
         try{
-            const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol);
+            const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres, eventosAgendadosPorId);
             res.json({ success: true, response: resultado });
         }catch(error){ 
             res.json({success:false, response: null, error:true});

@@ -25,7 +25,8 @@ const validator = (req, res, next) => {
             'string.email':'El correo requiere un formato válido',
         }),
         fotoPerfil: joi.required(),
-        rol: joi.string()
+        rol: joi.string(),
+        categoriaInteres: joi.array().required()
     })
 
     const validate = schema.validate(req.body, { abortEarly: false })
