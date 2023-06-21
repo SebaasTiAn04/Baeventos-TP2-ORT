@@ -12,13 +12,99 @@ const usuarioControllers = {
         }
     },
     nuevoUsuario: async (req, res) => {
-        let {nombre,apellido,email, contraseña,fotoPerfil,rol, categoriaInteres, eventosAgendadosPorId } = req.body 
+        
+        let {nombre,apellido,email, contraseña,fotoPerfil,rol, categoriaInteres, eventosAgendadosPorId, eventosExcluidosPorId } = req.body 
         try{
-            const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres, eventosAgendadosPorId);
+            const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres, eventosAgendadosPorId, eventosExcluidosPorId);
             res.json({ success: true, response: resultado });
         }catch(error){ 
             res.json({success:false, response: null, error:true});
         }        
+    },
+    agregarCategoria: async (req, res) => {
+        let { categorias } = req.body;
+        console.log("Hola")
+        try {
+            const resultado = await usuarioService.agregarCategoria(req.params.id, categorias);
+            res.status(200).json({ success: true, response: resultado })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+    },
+
+    eventosFuturos: async (req, res) => {
+        try {
+            const eventos = await usuarioService.eventosFuturos(req.params.id); //esto me devuelve todos los eventos
+            res.status(200).json({ success: true, response: eventos });
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+    },
+
+    agregarAgenda: async (req, res) => {
+        let { eventoAgendar } = req.body;
+        try {
+            const resultado = await usuarioService.agregarAgenda(req.params.id, eventoAgendar);//Esto me devuelve la agenda a agregar
+            res.status(200).json({ success: true, response: resultado });
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+
+    },
+
+    excluirEvento: async (req, res) => {
+        let { eventoExcluir } = req.body; 
+        try {
+            const resultado = await usuarioService.excluirEvento(req.params.id, eventoExcluir);//Esto me devuelve el evento a excluir
+            res.status(200).json({ success: true, response: resultado })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto, 
+        }
+    },
+
+    detallePerfil: async (req, res) => {
+        try {
+            const perfil = await usuarioService.detallePerfil(req.params.id);
+            res.status(200).json({ success: true, response: perfil })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+    },
+
+    verListaInteres: async (req, res) => {
+        try {
+            const intereses = await usuarioService.verListaInteres(req.params.id);
+            res.status(200).json({ success: true, response: intereses })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+    },
+
+    eliminarInteres: async (req, res) => {
+        let { interesEliminar } = req.body;
+        try {
+            const resultado = await usuarioService.eliminarInteres(req.params.id, interesEliminar);
+            res.status(200).json({ success: true, response: resultado })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
+    },
+
+    eliminarUsuario: async (req, res) => {
+        try {
+            const usuarioEliminar = await usuarioService.usuarioEliminar(req.params.id);
+            res.status(200).json({ success: true, response: usuarioEliminar })
+        }
+        catch (error) {
+            res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+        }
     },
 }
 

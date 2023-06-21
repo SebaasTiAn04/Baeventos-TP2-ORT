@@ -9,7 +9,8 @@ const usuarioSchema = new mongoose.Schema({
   fotoPerfil: { type: String, required: true },
   rol: { type: String, default:'usuario' },
   categoriaInteres: { type: [String], require: true },
-  eventosAgendadosPorId: {type: [String]} 
+  eventosAgendadosPorId: {type: [String]} ,
+  eventosExcluidosPorId: {type: [String]},
 });
 
 const Usuario = mongoose.model("usuario", usuarioSchema);

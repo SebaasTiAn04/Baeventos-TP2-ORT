@@ -19,6 +19,15 @@ const eventoController = {
     } catch (error) {
       res.json({ success: false, response: null });
     }
+  },
+  buscarEvento: async (req, res) => {
+    try{
+      const evento = await eventoService.buscarEvento(req.params.id);
+      res.json({ success: true, response: evento });
+    }
+    catch (error){
+      res.status(404).json({ success: false, response: error.message });//cambiar, poner uno exacto,
+    }
   }
 };
 

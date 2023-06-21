@@ -25,7 +25,16 @@ const eventoService = {
     } catch (error) {
       throw new Error('Error al obtener los eventos.');
     }
-  }
+  },
+  buscarEvento: async (id) => {
+    try{
+      const evento = await Evento.findById({id});
+      return evento;
+    }
+    catch (error){
+      throw new Error('Error al buscar el evento.');
+    }
+   },
 };
 
 module.exports = eventoService;
