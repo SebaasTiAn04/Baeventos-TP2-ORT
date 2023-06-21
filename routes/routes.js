@@ -22,33 +22,34 @@ Router.route('/evento') //Funciona
 //Controller usuario
 Router.route('/usuarios') //Funciona
     .get(obtenerTodosLosUsuarios)
-
-Router.route('/usuarios') //Funciona
+    .delete(eliminarUsuario)
     .post(validator, nuevoUsuario)
+    
+/* Router.route('/usuarios') //Funciona */
+/* Router.route('/usuarios')   */   
 
 Router.route('/agregarinteres') //Funciona
     .post(agregarCategoria)
 
-Router.route('/eventos/usuarios')
+Router.route('/eventos/usuarios') //revisar ------------------------------------------------------------
     .get(eventosFuturos)
 
-Router.route('/agendas/usuarios/:eventoAgendar')
-    .post(agregarAgenda)
+Router.route('/usuario/eventos')
+    .post(agregarAgenda)   //Funciona
 
-Router.route('/eventos/usuarios/:eventoExcluir')
+Router.route('/usuario/eventos/excluir') //Funciona
     .post(excluirEvento)
 
-Router.route('/usuarios/:id')
+Router.route('/usuario') // Funciona
     .get(detallePerfil)
 
-Router.route('/interes/usuarios')
-    .get(verListaInteres)
+Router.route('/usuarios/interes') 
+    .get(verListaInteres)    //Funciona
+    .post(eliminarInteres)   //Funciona   (Hay que probar si cambiamos post() por delete())
+/* Router.route('/usaurios/interes/interesEliminar') */
+    
 
-Router.route('/interes/usuarios/interesEliminar')
-    .post(eliminarInteres)
-
-Router.route('/usuarios')
-    .post(eliminarUsuario)
+    
 
 
 /* Router.route('/usuario/iniciarSesion/token')

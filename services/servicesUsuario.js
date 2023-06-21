@@ -142,14 +142,25 @@ const usuarioService = {
     try {
       const usuario = await Usuario.findById(id);
       if (usuario) {
-        return eventoAgendar.forEach(nombre => {
-          const eventoBuscado = Evento.findOne({ nombre })
+        for (const nombre of eventoAgendar) {
+          const eventoBuscado = await Evento.findOne({ nombre });
+    
           if (eventoBuscado) {
             usuario.eventosAgendadosPorId.push(eventoBuscado.id);
           }
-        })
-
+        }
+        return usuario.save();
       }
+      /* if (usuario) {
+          eventoAgendar.forEach(nombre => {
+          const eventoBuscado =  Evento.findOne({nombre})
+          console.log(eventoBuscado.name)
+          if (eventoBuscado.name == nombre) {
+             usuario.eventosAgendadosPorId.push(eventoBuscado.id);
+          }
+        })
+        return usuario
+      } */
     }
     catch (error) {
       throw new Error('Error al agregar la agenda.');
@@ -159,15 +170,26 @@ const usuarioService = {
   excluirEvento: async (id, eventoExcluir) => {//Nos va a llegar un array con los nombres de eventos a excluir
     try {
       const usuario = await Usuario.findById(id);
-
       if (usuario) {
-        return eventoExcluir.forEach(nombre => {
-          const eventoBuscado = Evento.findOne({ nombre });
-          if (eventoBuscado) {//valido que exista
+        for (const nombre of eventoExcluir) {
+          const eventoBuscado = await Evento.findOne({ nombre });
+    
+          if (eventoBuscado) {
             usuario.eventosExcluidosPorId.push(eventoBuscado.id);
           }
-        })
+        }
+    
+        return usuario.save();
       }
+      /*      if (usuario) {
+              eventoExcluir.forEach(nombre => {
+                const eventoBuscado = Evento.findOne({ nombre });
+                if (eventoBuscado) {//valido que exista
+                  usuario.eventosExcluidosPorId.push(eventoBuscado.id);
+                }
+              })
+              return usuario
+            } */
     }
     catch (error) {
       throw new Error('Error al agregar el evento como "No me interesa".');
@@ -202,12 +224,13 @@ const usuarioService = {
     try {
       const usuario = await Usuario.findById(id);
       if (usuario) {
-        return interesEliminar.forEach(interes => {
+        interesEliminar.forEach(interes => {
           const posicionInteres = usuario.categoriaInteres.indexOf(interes);
           if (posicionInteres >= 0) {//si existe el interes en su array de intereses
             usuario.categoriaInteres.splice(posicionInteres, 1);
           }
         })
+        return usuario.save()
       }
 
     }
@@ -220,17 +243,6 @@ const usuarioService = {
     try {
       const usuario = {};
       return usuario = await Usuario.findByIdAndDelete(id);
-      /*
-      if (usuario) {
-        Usuario.deleteOne(
-          {
-            id: usuario.id
-          }
-        )
-
-        return usuario;
-      }
-      */
     }
     catch (error) {
       throw new Error('Error al eliminar el usuario con el id enviado.');
