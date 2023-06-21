@@ -97,8 +97,10 @@ const usuarioControllers = {
     },
 
     eliminarUsuario: async (req, res) => {
+        
         try {
-            const usuarioEliminar = await usuarioService.usuarioEliminar(req.query.id);
+            
+            const usuarioEliminar = await usuarioService.eliminarUsuario(req.query.id);
             res.status(200).json({ success: true, response: usuarioEliminar })
         }
         catch (error) {

@@ -22,17 +22,6 @@ const usuarioService = {
       throw new Error('Error al obtener los usuarios.');
     }
   },
-  buscarUsuario: async (id) => {
-    try {
-      console.log("Hola desde buscar usuario")
-      const usuario = await Usuario.findById(id);
-      return usuario;
-    }
-    catch (error) {
-      throw new Error('Este al buscar el usuario.');
-    }
-  },
-
   nuevoUsuario: async (nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres,) => {
     try {
       const emailExiste = await Usuario.findOne({ email });
@@ -91,17 +80,6 @@ const usuarioService = {
 
     return encontrado;
   },
-/*   tengoInteres: (interes) => {
-    let i = 0;
-    let encontrado = false;
-    while (i > categoriaInteres.length() && !encontrado) {
-      if (categoriaInteres[i] == interes) {
-        encontrado = true;
-      }
-    }
-
-    return encontrado;
-  }, */
 
   eventosFuturos: async (id) => {
     try {
@@ -151,16 +129,6 @@ const usuarioService = {
         }
         return usuario.save();
       }
-      /* if (usuario) {
-          eventoAgendar.forEach(nombre => {
-          const eventoBuscado =  Evento.findOne({nombre})
-          console.log(eventoBuscado.name)
-          if (eventoBuscado.name == nombre) {
-             usuario.eventosAgendadosPorId.push(eventoBuscado.id);
-          }
-        })
-        return usuario
-      } */
     }
     catch (error) {
       throw new Error('Error al agregar la agenda.');
@@ -181,15 +149,6 @@ const usuarioService = {
     
         return usuario.save();
       }
-      /*      if (usuario) {
-              eventoExcluir.forEach(nombre => {
-                const eventoBuscado = Evento.findOne({ nombre });
-                if (eventoBuscado) {//valido que exista
-                  usuario.eventosExcluidosPorId.push(eventoBuscado.id);
-                }
-              })
-              return usuario
-            } */
     }
     catch (error) {
       throw new Error('Error al agregar el evento como "No me interesa".');
@@ -241,11 +200,10 @@ const usuarioService = {
 
   eliminarUsuario: async (id) => {
     try {
-      const usuario = {};
-      return usuario = await Usuario.findByIdAndDelete(id);
-    }
-    catch (error) {
-      throw new Error('Error al eliminar el usuario con el id enviado.');
+      const usuario = await Usuario.findByIdAndRemove(id);
+      return usuario;
+    } catch (error) {
+      throw new Error('Error al eliminar el usuario con el ID proporcionado: ' + error.message);
     }
   },
 };

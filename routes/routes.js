@@ -20,14 +20,11 @@ Router.route('/evento') //Funciona
     .get(buscarEvento)
 
 //Controller usuario
-Router.route('/usuarios') //Funciona
-    .get(obtenerTodosLosUsuarios)
-    .delete(eliminarUsuario)
-    .post(validator, nuevoUsuario)
-    
-/* Router.route('/usuarios') //Funciona */
-/* Router.route('/usuarios')   */   
-
+Router.route('/usuarios') 
+    .get(obtenerTodosLosUsuarios) //Funciona
+    .post(validator, nuevoUsuario) //Funciona
+    .delete(eliminarUsuario) //Funciona 
+  
 Router.route('/agregarinteres') //Funciona
     .post(agregarCategoria)
 
@@ -45,12 +42,7 @@ Router.route('/usuario') // Funciona
 
 Router.route('/usuarios/interes') 
     .get(verListaInteres)    //Funciona
-    .post(eliminarInteres)   //Funciona   (Hay que probar si cambiamos post() por delete())
-/* Router.route('/usaurios/interes/interesEliminar') */
-    
-
-    
-
+    .delete(eliminarInteres)   //Funciona 
 
 /* Router.route('/usuario/iniciarSesion/token')
 .post(passport.authenticate('jwt',{session:false}),iniciarConToken) */
