@@ -18,14 +18,13 @@ const usuarioControllers = {
             const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres, eventosAgendadosPorId, eventosExcluidosPorId);
             res.json({ success: true, response: resultado });
         }catch(error){ 
-            res.json({success:false, response: null, error:true});
+            res.json({success:false, response: error.message, error:true});
         }        
     },
     agregarCategoria: async (req, res) => {
         let { categorias } = req.body;
-        console.log("Hola")
         try {
-            const resultado = await usuarioService.agregarCategoria(req.params.id, categorias);
+            const resultado = await usuarioService.agregarCategoria(req.query.id, categorias);
             res.status(200).json({ success: true, response: resultado })
         }
         catch (error) {
@@ -35,7 +34,7 @@ const usuarioControllers = {
 
     eventosFuturos: async (req, res) => {
         try {
-            const eventos = await usuarioService.eventosFuturos(req.params.id); //esto me devuelve todos los eventos
+            const eventos = await usuarioService.eventosFuturos(req.query.id); //esto me devuelve todos los eventos
             res.status(200).json({ success: true, response: eventos });
         }
         catch (error) {
@@ -46,7 +45,7 @@ const usuarioControllers = {
     agregarAgenda: async (req, res) => {
         let { eventoAgendar } = req.body;
         try {
-            const resultado = await usuarioService.agregarAgenda(req.params.id, eventoAgendar);//Esto me devuelve la agenda a agregar
+            const resultado = await usuarioService.agregarAgenda(req.query.id, eventoAgendar);//Esto me devuelve la agenda a agregar
             res.status(200).json({ success: true, response: resultado });
         }
         catch (error) {
@@ -58,7 +57,7 @@ const usuarioControllers = {
     excluirEvento: async (req, res) => {
         let { eventoExcluir } = req.body; 
         try {
-            const resultado = await usuarioService.excluirEvento(req.params.id, eventoExcluir);//Esto me devuelve el evento a excluir
+            const resultado = await usuarioService.excluirEvento(req.query.id, eventoExcluir);//Esto me devuelve el evento a excluir
             res.status(200).json({ success: true, response: resultado })
         }
         catch (error) {
@@ -68,7 +67,7 @@ const usuarioControllers = {
 
     detallePerfil: async (req, res) => {
         try {
-            const perfil = await usuarioService.detallePerfil(req.params.id);
+            const perfil = await usuarioService.detallePerfil(req.query.id);
             res.status(200).json({ success: true, response: perfil })
         }
         catch (error) {
@@ -78,7 +77,7 @@ const usuarioControllers = {
 
     verListaInteres: async (req, res) => {
         try {
-            const intereses = await usuarioService.verListaInteres(req.params.id);
+            const intereses = await usuarioService.verListaInteres(req.query.id);
             res.status(200).json({ success: true, response: intereses })
         }
         catch (error) {
@@ -89,7 +88,7 @@ const usuarioControllers = {
     eliminarInteres: async (req, res) => {
         let { interesEliminar } = req.body;
         try {
-            const resultado = await usuarioService.eliminarInteres(req.params.id, interesEliminar);
+            const resultado = await usuarioService.eliminarInteres(req.query.id, interesEliminar);
             res.status(200).json({ success: true, response: resultado })
         }
         catch (error) {
@@ -99,7 +98,7 @@ const usuarioControllers = {
 
     eliminarUsuario: async (req, res) => {
         try {
-            const usuarioEliminar = await usuarioService.usuarioEliminar(req.params.id);
+            const usuarioEliminar = await usuarioService.usuarioEliminar(req.query.id);
             res.status(200).json({ success: true, response: usuarioEliminar })
         }
         catch (error) {

@@ -28,7 +28,8 @@ const eventoService = {
   },
   buscarEvento: async (id) => {
     try{
-      const evento = await Evento.findById({id});
+      console.log("Hola services")
+      const evento = await Evento.findById(id);
       return evento;
     }
     catch (error){

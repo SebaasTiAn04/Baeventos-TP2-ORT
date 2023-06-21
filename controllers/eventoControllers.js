@@ -22,7 +22,8 @@ const eventoController = {
   },
   buscarEvento: async (req, res) => {
     try{
-      const evento = await eventoService.buscarEvento(req.params.id);
+      console.log("hola")
+      const evento = await eventoService.buscarEvento(req.query.id);
       res.json({ success: true, response: evento });
     }
     catch (error){

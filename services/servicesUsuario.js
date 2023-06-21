@@ -1,5 +1,6 @@
 const Usuario = require('../models/usuario');
 const Evento = require('../models/evento');
+const eventoServices = require('../services/servicesEvento');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -23,7 +24,8 @@ const usuarioService = {
   },
   buscarUsuario: async (id) => {
     try {
-      const usuario = await Usuario.findById({ id });
+      console.log("Hola desde buscar usuario")
+      const usuario = await Usuario.findById(id);
       return usuario;
     }
     catch (error) {
@@ -50,29 +52,20 @@ const usuarioService = {
   },
   agregarCategoria: async (id, categorias) => {
     try {
-      const usuario = await buscarUsuario({ id:"64926379d6a5525539068793" });
+      console.log("Hola services")
+      console.log(id)
+      const usuario = await Usuario.findById(id);
       console.log(usuario)
       if (usuario) {
-        return categorias.forEach(categoria => {
+        categorias.forEach(categoria => {
           usuario.categoriaInteres.push(categoria);
         });
+        return usuario.save();
       }
     }
     catch (error) {
       throw new Error('Error al agregar categoria.');
     }
-  },
-
-  tengoInteres: (interes) => {
-    let i = 0;
-    let encontrado = false;
-    while (i > categoriaInteres.length() && !encontrado) {
-      if (categoriaInteres[i] == interes) {
-        encontrado = true;
-      }
-    }
-
-    return encontrado;
   },
 
   puedoMostrarEventoNoAgendado: (eventoId) => {
@@ -98,14 +91,40 @@ const usuarioService = {
 
     return encontrado;
   },
+/*   tengoInteres: (interes) => {
+    let i = 0;
+    let encontrado = false;
+    while (i > categoriaInteres.length() && !encontrado) {
+      if (categoriaInteres[i] == interes) {
+        encontrado = true;
+      }
+    }
+
+    return encontrado;
+  }, */
 
   eventosFuturos: async (id) => {
     try {
-      const usuario = await buscarUsuario({ id });
-      console.log(usuario);
-      let eventosTodos = await Evento.obtenerTodosLosEventos();
-      let eventosDeInteres = eventosTodos.filter(evento => usuario.tengoInteres(evento.tipo));
-      let eventosFuturos = eventosDeInteres.filter(evento => Date.parse(evento.fecha) >= Date.parse(Date.now));
+      const usuario = await Usuario.findById(id);
+      let eventosTodos = await eventoServices.obtenerTodosLosEventos();
+      
+      let eventosDeInteres = [...eventosTodos.filter(evento => usuario.categoriaInteres.includes(evento.tipo))] ;
+      let eventosFuturos = [...eventosDeInteres.filter(evento => {
+        console.log(evento.fecha)
+        console.log(Date.parse(evento.fecha))
+        const fechaHoy = new Date();
+        const dia = fechaHoy.getDate();
+        const mes = fechaHoy.getMonth() + 1; 
+        const anio = fechaHoy.getFullYear();
+        console.log(Date.parse(`${dia}-${mes}-${anio}`));
+        console.log(evento.fecha.replace(/-/g, "") );
+        return Date.parse(evento.fecha) >=  Date.parse(`${dia}${mes}${anio}`)
+      })];
+
+      console.log("------------------------------------------------------------------------------------")
+      console.log(eventosFuturos)
+      console.log("Hola desde eventos futuros")
+
       let eventosNoAgendados = eventosFuturos.filter(evento => usuario.puedoMostrarEventoNoAgendado(evento.id));
       let eventosDevolver = eventosNoAgendados.filter(evento => usuario.puedoMostrarEventoNoExcluido(evento.id));
 
@@ -121,7 +140,7 @@ const usuarioService = {
 
   agregarAgenda: async (id, eventoAgendar) => {//Nos va a llegar un array con los nombres de eventos a agendar
     try {
-      const usuario = await buscarUsuario({ id });
+      const usuario = await Usuario.findById(id);
       if (usuario) {
         return eventoAgendar.forEach(nombre => {
           const eventoBuscado = Evento.findOne({ nombre })
@@ -139,7 +158,7 @@ const usuarioService = {
 
   excluirEvento: async (id, eventoExcluir) => {//Nos va a llegar un array con los nombres de eventos a excluir
     try {
-      const usuario = await buscarUsuario({ id });
+      const usuario = await Usuario.findById(id);
 
       if (usuario) {
         return eventoExcluir.forEach(nombre => {
@@ -157,7 +176,7 @@ const usuarioService = {
 
   detallePerfil: async (id) => {
     try {
-      const usuario = buscarUsuario({ id });
+      const usuario = Usuario.findById(id);
       if (usuario) {
         return usuario;
       }
@@ -169,7 +188,7 @@ const usuarioService = {
 
   verListaInteres: async (id) => {
     try {
-      const usuario = await buscarUsuario({ id });
+      const usuario = await Usuario.findById(id);
       if (usuario) {
         return usuario.categoriaInteres;
       }
@@ -181,7 +200,7 @@ const usuarioService = {
 
   eliminarInteres: async (id, interesEliminar) => {
     try {
-      const usuario = await buscarUsuario({ id });
+      const usuario = await Usuario.findById(id);
       if (usuario) {
         return interesEliminar.forEach(interes => {
           const posicionInteres = usuario.categoriaInteres.indexOf(interes);
@@ -200,7 +219,7 @@ const usuarioService = {
   eliminarUsuario: async (id) => {
     try {
       const usuario = {};
-      return usuario = await Usuario.findByIdAndDelete({ id });
+      return usuario = await Usuario.findByIdAndDelete(id);
       /*
       if (usuario) {
         Usuario.deleteOne(

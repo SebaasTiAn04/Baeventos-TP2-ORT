@@ -10,44 +10,44 @@ const { obtenerTodosLosUsuarios, nuevoUsuario, agregarCategoria, eventosFuturos,
 
 
 //Controller evento
-Router.route('/eventos')
+Router.route('/eventos') //Funciona
     .get(obtenerTodosLosEventos)
 
-Router.route('/eventos')
+Router.route('/eventos') //Funciona
     .post(crearEvento)
 
-Router.route('/eventos/:id')
+Router.route('/evento') //Funciona
     .get(buscarEvento)
 
 //Controller usuario
-Router.route('/usuarios')
+Router.route('/usuarios') //Funciona
     .get(obtenerTodosLosUsuarios)
 
-Router.route('/usuarios')
+Router.route('/usuarios') //Funciona
     .post(validator, nuevoUsuario)
 
-Router.route('/agregarinteres')
+Router.route('/agregarinteres') //Funciona
     .post(agregarCategoria)
 
-Router.route('/eventos/usuarios/:id')
+Router.route('/eventos/usuarios')
     .get(eventosFuturos)
 
-Router.route('/agendas/usuarios/:id/:eventoAgendar')
+Router.route('/agendas/usuarios/:eventoAgendar')
     .post(agregarAgenda)
 
-Router.route('/eventos/usuarios/:id/:eventoExcluir')
+Router.route('/eventos/usuarios/:eventoExcluir')
     .post(excluirEvento)
 
 Router.route('/usuarios/:id')
     .get(detallePerfil)
 
-Router.route('/interes/usuarios/:id')
+Router.route('/interes/usuarios')
     .get(verListaInteres)
 
-Router.route('/interes/usuarios/:id/interesEliminar')
+Router.route('/interes/usuarios/interesEliminar')
     .post(eliminarInteres)
 
-Router.route('/usuarios/:id')
+Router.route('/usuarios')
     .post(eliminarUsuario)
 
 
