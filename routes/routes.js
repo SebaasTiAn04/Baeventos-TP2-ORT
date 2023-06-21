@@ -6,7 +6,7 @@ const usuarioControllers = require('../controllers/usuariosControllers')
 const eventoControllers = require('../controllers/eventoControllers')
 
 const { crearEvento, obtenerTodosLosEventos, buscarEvento } = eventoControllers
-const { obtenerTodosLosUsuarios, nuevoUsuario, agregarCategoria, eventosFuturos, agregarAgenda, excluirEvento, detallePerfil, verListaInteres, eliminarInteres, eliminarUsuario } = usuarioControllers;
+const { obtenerTodosLosUsuarios, nuevoUsuario, agregarCategoria, eventosDeInteres, agregarAgenda, excluirEvento, detallePerfil, verListaInteres, eliminarInteres, eliminarUsuario } = usuarioControllers;
 
 
 //Controller evento
@@ -23,16 +23,11 @@ Router.route('/evento') //Funciona
 Router.route('/usuarios') 
     .get(obtenerTodosLosUsuarios) //Funciona
     .post(validator, nuevoUsuario) //Funciona
-    .delete(eliminarUsuario) //Funciona 
-  
-Router.route('/agregarinteres') //Funciona
-    .post(agregarCategoria)
-
-Router.route('/eventos/usuarios') //revisar ------------------------------------------------------------
-    .get(eventosFuturos)
+    .delete(eliminarUsuario) //Funciona     
 
 Router.route('/usuario/eventos')
     .post(agregarAgenda)   //Funciona
+    .get(eventosDeInteres)  //Funciona
 
 Router.route('/usuario/eventos/excluir') //Funciona
     .post(excluirEvento)
@@ -43,6 +38,8 @@ Router.route('/usuario') // Funciona
 Router.route('/usuarios/interes') 
     .get(verListaInteres)    //Funciona
     .delete(eliminarInteres)   //Funciona 
+    .post(agregarCategoria)   // funciona
+
 
 /* Router.route('/usuario/iniciarSesion/token')
 .post(passport.authenticate('jwt',{session:false}),iniciarConToken) */

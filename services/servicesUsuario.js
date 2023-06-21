@@ -41,8 +41,6 @@ const usuarioService = {
   },
   agregarCategoria: async (id, categorias) => {
     try {
-      console.log("Hola services")
-      console.log(id)
       const usuario = await Usuario.findById(id);
       console.log(usuario)
       if (usuario) {
@@ -57,59 +55,16 @@ const usuarioService = {
     }
   },
 
-  puedoMostrarEventoNoAgendado: (eventoId) => {
-    let i = 0;
-    let encontrado = true;
-    while (i > eventosAgendadosPorId.length() && encontrado) {
-      if (eventosAgendadosPorId[i] == eventoId) {
-        encontrado = false;
-      }
-    }
-
-    return encontrado;
-  },
-
-  puedoMostrarEventoNoExcluido: (eventoId) => {
-    let i = 0;
-    let encontrado = true;
-    while (i > eventosExcluidosPorId.length() && encontrado) {
-      if (eventosAgendadosPorId[i] == eventoId) {
-        encontrado = false;
-      }
-    }
-
-    return encontrado;
-  },
-
-  eventosFuturos: async (id) => {
+  eventosInteres: async (id) => {
     try {
       const usuario = await Usuario.findById(id);
       let eventosTodos = await eventoServices.obtenerTodosLosEventos();
       
       let eventosDeInteres = [...eventosTodos.filter(evento => usuario.categoriaInteres.includes(evento.tipo))] ;
-      let eventosFuturos = [...eventosDeInteres.filter(evento => {
-        console.log(evento.fecha)
-        console.log(Date.parse(evento.fecha))
-        const fechaHoy = new Date();
-        const dia = fechaHoy.getDate();
-        const mes = fechaHoy.getMonth() + 1; 
-        const anio = fechaHoy.getFullYear();
-        console.log(Date.parse(`${dia}-${mes}-${anio}`));
-        console.log(evento.fecha.replace(/-/g, "") );
-        return Date.parse(evento.fecha) >=  Date.parse(`${dia}${mes}${anio}`)
-      })];
 
-      console.log("------------------------------------------------------------------------------------")
-      console.log(eventosFuturos)
-      console.log("Hola desde eventos futuros")
-
-      let eventosNoAgendados = eventosFuturos.filter(evento => usuario.puedoMostrarEventoNoAgendado(evento.id));
-      let eventosDevolver = eventosNoAgendados.filter(evento => usuario.puedoMostrarEventoNoExcluido(evento.id));
-
-      //tengo que clonarme en array con todos los eventos existentes y usar un filter con las categorias de eventos que le gusta y de ahí ir excluyendo o hacer un 
-      //filtro mas donde quite del array los que ya estan agendados, los que tienen fecha pasada y los que tienen id que no le interesa
-
-      return eventosDevolver;
+      if(eventosDeInteres){
+        return eventosDeInteres;
+      } 
     }
     catch (error) {
       throw new Error('Error al listar los eventos.');

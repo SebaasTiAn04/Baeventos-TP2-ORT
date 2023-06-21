@@ -6,9 +6,9 @@ const usuarioControllers = {
     obtenerTodosLosUsuarios:async (req, res) => {
         try{
            const usuarios = await usuarioService.obtenerTodosLosUsuarios();
-            res.json({success: true, response: usuarios});
+            res.status(200).json({success: true, response: usuarios});
         }catch(error){
-            res.json({success: false, response: null});
+            res.status(404).json({success: false, response: null});
         }
     },
     nuevoUsuario: async (req, res) => {
@@ -16,9 +16,9 @@ const usuarioControllers = {
         let {nombre,apellido,email, contraseña,fotoPerfil,rol, categoriaInteres, eventosAgendadosPorId, eventosExcluidosPorId } = req.body 
         try{
             const resultado = await usuarioService.nuevoUsuario(nombre, apellido, email, contraseña, fotoPerfil, rol, categoriaInteres, eventosAgendadosPorId, eventosExcluidosPorId);
-            res.json({ success: true, response: resultado });
+            res.status(201).json({ success: true, response: resultado });
         }catch(error){ 
-            res.json({success:false, response: error.message, error:true});
+            res.status(404).json({success:false, response: error.message, error:true});
         }        
     },
     agregarCategoria: async (req, res) => {
@@ -32,9 +32,9 @@ const usuarioControllers = {
         }
     },
 
-    eventosFuturos: async (req, res) => {
+    eventosDeInteres: async (req, res) => {
         try {
-            const eventos = await usuarioService.eventosFuturos(req.query.id); //esto me devuelve todos los eventos
+            const eventos = await usuarioService.eventosInteres(req.query.id); //esto me devuelve todos los eventos
             res.status(200).json({ success: true, response: eventos });
         }
         catch (error) {
