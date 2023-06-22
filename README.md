@@ -1,0 +1,98 @@
+
+Documentación inicial del proyecto: BAEventos
+
+Descripción general de la situación (real o ficticia) que da origen al proyecto:
+La problemática que da origen a este proyecto es la de no contar con suficiente información sobre los eventos gratuitos que dispone el gobierno de la ciudad y la falta de organización con respecto a las mismas. Este proyecto busca tener en un lugar centralizado los eventos ordenados por su tipo, donde un usuario va a poder agendarlos/descartalos y buscar los eventos que desee para luego poder asistir a ellos en sus tiempos libres.
+
+
+Análisis inicial de posibles modelos:
+Posibles entidades:
+Usuario
+Evento
+
+
+
+
+Análisis inicial de posibles reglas de negocio:
+Un usuario deberá estar registrado para poder agendar un evento.
+
+
+Un usuario podrá revisar todos los eventos de su interés que todavía no haya agendado y no haya marcado como “no me interesa”.
+
+
+El usuario podrá buscar un evento por su descripción.
+
+
+Un usuario podrá agregar un evento de su interés a su agenda.
+
+
+Un usuario logueado podrá agregar un evento como “no me interesa” como para excluir el evento del área de inicio (no le aparecerá más a menos que lo busque).
+
+
+Un usuario podrá ver y editar su perfil.
+Un usuario podrá ver su lista de intereses.
+Un usuario podrá eliminar una categoría de su lista de intereses.
+Un usuario podrá agregar un evento.
+Se podrá eliminar un usuario enviando el id del mismo.
+Un usuario podrá agregar categorías de su “Interés”.
+
+
+# 1. Introducción
+El sistema BAEventos busca que un usuario pueda disponer de una cartera de eventos de su interés y disfrutar de los mismos organizándose de una forma centralizada mediante una interfaz amigable. Cuenta con ciertas acciones que le permiten realizar esto (Análisis inicial de posibles reglas de negocio).
+
+# 2. Requerimientos del sistema
+
+## 2.1 Funcionales
+- Permitir a los usuarios busquen eventos por título.
+- Mostrar información detallada sobre el evento.
+- Permitir a los usuarios agendar un evento.
+- Permitir a los usuarios agregar categorías de interés.
+- Permitir listar todos los eventos.
+- Permitir listar los eventos filtrados por interés.
+- Permitirle al usuario ver su lista de intereses (lista no eventos).
+- Permitir al usuario agregar categorías de la lista de interés.
+- Permitir al usuario eliminar categorías de su lista de interés.
+
+## 2.2 No funcionales
+- El sistema debe ser fácil de usar y navegar.
+- El sistema debe ser seguro y proteger la información del usuario.
+- El sistema debe ser escalable y capaz de manejar una gran cantidad de tráfico.
+- El sistema debe ser rápido y responder rápidamente a las solicitudes de los usuarios.
+
+Documentación para peticiones
+
+
+
+
+
+
+## API Referencias
+
+
+
+```http
+  GET /api/
+```
+
+| Controlador | Http Method | EndPoint| Funcionalidad | Http Respuesta | Error|
+| :---------- | :---------- | :-------| :------------ | :--------------| :------------------------- |
+| `Eventos` | `Get` | **/api/eventos** | `Obtiene todos los eventos.` | `Array con todos los eventos.` |`404 Not Found`|
+| `Eventos` | `Get` | **/api/evento** | `Busca un evento por su id.` | `Devuelve el evento buscado en caso de existir.` |`404 Not Found`|
+| `Eventos` | `Post` | **/api/eventos** | `Crea un evento.` | `Devuelve el evento creado.` |`404 Not Found`|
+| `Usuarios` | `Get` | **/api/usuarios** | `Obtiene todos los usuarios.` | `Array con todos los usuarios.` |`404 Not Found`|
+| `Usuarios` | `Get` | **/api/usuario/eventos** | `Devuelve todos los eventos filtrados por los intereses del usuario que se pasó en el id.` | `Array con los eventos que correspondan.` |`404 Not Found`|
+| `Usuarios` | `Get` | **/api/usuarios/interes** | `Muestra la/s categoria/s al array de categorias de interés del usuario.` | `Devuelve el usuario.` |`404 Not Found`|
+| `Usuarios` | `Post` | **/api/usuarios** | `Crea un nuevo usuario.` | ` Devuelve el usuario creado.` |`422 Unprocessable Entity/404 Not Found`|
+| `Usuarios` | `Post` | **/api/usuario/eventos** | `Agrega el id del evento al array de agendas del usuario.` | ` Devuelve el usuario actualizado.` |`404 Not Found`|
+| `Usuarios` | `Post` | **/api/usuario/eventos/excluir** | `Excluye el evento de los eventos a mostrar al usuario, agrega el id del evento al array de eventos excluidos.` | ` Devuelve el usuario actualizado.` |`404 Not Found`|
+| `Usuarios` | `Post` | **/api/usuarios/interes** | `Permite al usuario agregar categorías de interés a su array de intereses.` | ` Devuelve el usuario actualizado.`|`404 Not Found`|
+| `Usuarios` | `Delete` | **/api/usuarios** | `Elimina el usuario por su id.` | ` Devuelve el usuario eliminado.`|`404 Not Found`|
+| `Usuarios` | `Delete` | **/api/usuarios/interes** | `Elimina la categoría de la lista de intereses del usuario en caso de que la misma ya exista en el array del mismo.` | ` Devuelve el usuario actualizado.`|`404 Not Found`|
+
+
+
+
+
+
+
+
